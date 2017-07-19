@@ -1,0 +1,25 @@
+{
+  "name": "translation-keys-generator",
+  "version": "1.0.0",
+  "description": "Generate typescript interface for a given json translation table",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "translation",
+    "json",
+    "keys",
+    "typescript"
+  ],
+  "author": "Mohamed Elhadi <mohamed-elhadi@live.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "8.0.14",
+    "typescript": "2.4.1"
+  },
+  "dependencies": {
+    "@types/lodash": "4.14.70",
+    "lodash": "4.17.4"
+  }
+}
