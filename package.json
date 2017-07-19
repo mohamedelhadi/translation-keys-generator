@@ -21,5 +21,13 @@
   "dependencies": {
     "@types/lodash": "4.14.70",
     "lodash": "4.17.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohamedelhadi/translation-keys-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mohamedelhadi/translation-keys-generator/issues"
+  },
+  "homepage": "https://github.com/mohamedelhadi/translation-keys-generator"
 }
