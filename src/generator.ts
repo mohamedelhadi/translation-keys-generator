@@ -39,6 +39,23 @@ export class Generator {
         fs.writeFileSync(path, result);
     }
 
+    /**
+     * 
+     * @param item the translation table imported from a json file. e.g: import { default as translationTable } from "i18n/en.json")
+     * @param namespace optional. don't provide any value, as the namespace is generated in the recursion
+     * @description takes a translation table object and replaces its translation values with keys
+     */
+    public replaceTranslationsWithKeys(item, namespace?: string) {
+        for (const property in item) {
+            const key = (namespace ? namespace + "." : "") + property;
+            if (typeof (item[property]) === "object") {
+                this.replaceTranslationsWithKeys(item[property], key);
+            } else if (typeof (item[property]) === "string" || item[property] instanceof String) {
+                item[property] = key;
+            }
+        }
+    }
+
     private toObject(src) {
         if (src.length > 5 && src.slice(-5).toLowerCase() === ".json") {
             src = fs.readFileSync(src);
