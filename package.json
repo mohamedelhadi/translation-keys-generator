@@ -1,6 +1,6 @@
 {
   "name": "translation-keys-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generate typescript interface for a given json translation table",
   "main": "index.js",
   "scripts": {

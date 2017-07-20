@@ -4,10 +4,10 @@ import isDate = require("lodash/isDate");
 import isString = require("lodash/isString");
 import isBoolean = require("lodash/isBoolean");
 import isNumber = require("lodash/isNumber");
-import partial = require("lodash/partial");
 import isEqual = require("lodash/isEqual");
+import every = require("lodash/every");
+import partial = require("lodash/partial");
 import includes = require("lodash/includes");
-import all from "lodash/lang";
 
 import * as fs from "fs";
 
@@ -37,23 +37,6 @@ export class Generator {
     public generateAsFile({ json, path, rootInterface = "ITranslationKeys", pascalNaming = true }: { json: string | object, path: string, rootInterface?: string, pascalNaming?: boolean }) {
         const result = this.generateAsString(json, pascalNaming, rootInterface);
         fs.writeFileSync(path, result);
-    }
-
-    /**
-     * 
-     * @param item the translation table imported from a json file. e.g: import { default as translationTable } from "i18n/en.json")
-     * @param namespace optional. don't provide any value, as the namespace is generated in the recursion
-     * @description takes a translation table object and replaces its translation values with keys
-     */
-    public replaceTranslationsWithKeys(item, namespace?: string) {
-        for (const property in item) {
-            const key = (namespace ? namespace + "." : "") + property;
-            if (typeof (item[property]) === "object") {
-                this.replaceTranslationsWithKeys(item[property], key);
-            } else if (typeof (item[property]) === "string" || item[property] instanceof String) {
-                item[property] = key;
-            }
-        }
     }
 
     private toObject(src) {
@@ -127,11 +110,11 @@ export class Generator {
                     let valueTypeResult = this.detectMultiArrayTypes(element, valueType);
                     valueType.concat(valueTypeResult);
                 }
-            } else if (all(value, isString)) {
+            } else if (every(value, isString)) {
                 valueType.push("string[];");
-            } else if (all(value, isNumber)) {
+            } else if (every(value, isNumber)) {
                 valueType.push("number[];");
-            } else if (all(value, isBoolean)) {
+            } else if (every(value, isBoolean)) {
                 valueType.push("boolean[];");
             } else {
                 valueType.push("any[];");
@@ -146,7 +129,7 @@ export class Generator {
     }
 
     private isAllEqual(array: string[]) {
-        return all(array.slice(1), partial(isEqual, array[0]));
+        return every(array.slice(1), partial(isEqual, array[0]));
     }
 
     private getMultiArrayBrackets(content: any): string {

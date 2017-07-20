@@ -6,10 +6,10 @@ var isDate = require("lodash/isDate");
 var isString = require("lodash/isString");
 var isBoolean = require("lodash/isBoolean");
 var isNumber = require("lodash/isNumber");
-var partial = require("lodash/partial");
 var isEqual = require("lodash/isEqual");
+var every = require("lodash/every");
+var partial = require("lodash/partial");
 var includes = require("lodash/includes");
-var lang_1 = require("lodash/lang");
 var fs = require("fs");
 var Generator = (function () {
     function Generator() {
@@ -40,23 +40,6 @@ var Generator = (function () {
         var json = _a.json, path = _a.path, _b = _a.rootInterface, rootInterface = _b === void 0 ? "ITranslationKeys" : _b, _c = _a.pascalNaming, pascalNaming = _c === void 0 ? true : _c;
         var result = this.generateAsString(json, pascalNaming, rootInterface);
         fs.writeFileSync(path, result);
-    };
-    /**
-     *
-     * @param item the translation table imported from a json file. e.g: import { default as translationTable } from "i18n/en.json")
-     * @param namespace optional. don't provide any value, as the namespace is generated in the recursion
-     * @description takes a translation table object and replaces its translation values with keys
-     */
-    Generator.prototype.replaceTranslationsWithKeys = function (item, namespace) {
-        for (var property in item) {
-            var key = (namespace ? namespace + "." : "") + property;
-            if (typeof (item[property]) === "object") {
-                this.replaceTranslationsWithKeys(item[property], key);
-            }
-            else if (typeof (item[property]) === "string" || item[property] instanceof String) {
-                item[property] = key;
-            }
-        }
     };
     Generator.prototype.toObject = function (src) {
         if (src.length > 5 && src.slice(-5).toLowerCase() === ".json") {
@@ -133,13 +116,13 @@ var Generator = (function () {
                     valueType.concat(valueTypeResult);
                 }
             }
-            else if (lang_1.default(value, isString)) {
+            else if (every(value, isString)) {
                 valueType.push("string[];");
             }
-            else if (lang_1.default(value, isNumber)) {
+            else if (every(value, isNumber)) {
                 valueType.push("number[];");
             }
-            else if (lang_1.default(value, isBoolean)) {
+            else if (every(value, isBoolean)) {
                 valueType.push("boolean[];");
             }
             else {
@@ -152,7 +135,7 @@ var Generator = (function () {
         return arrayTypes.length > 1;
     };
     Generator.prototype.isAllEqual = function (array) {
-        return lang_1.default(array.slice(1), partial(isEqual, array[0]));
+        return every(array.slice(1), partial(isEqual, array[0]));
     };
     Generator.prototype.getMultiArrayBrackets = function (content) {
         var jsonString = JSON.stringify(content);

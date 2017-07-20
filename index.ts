@@ -1,2 +1,3 @@
 import { Generator } from "./src/generator";
-export default new Generator();
+const generator = new Generator();
+export { generator };
