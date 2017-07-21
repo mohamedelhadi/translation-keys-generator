@@ -15,7 +15,7 @@ say you have a json translation table as below (en.json)
 ```
 you can get the translation like so
 ```javascript
-translate.get(Keys.Common.NoMatch); // Keys.Common.Cancel will result in "Common.NoMatch"
+translate.get(Keys.Common.NoMatch); // Keys.Common.NoMatch will result in "Common.NoMatch"
 ```
 or inside the view
 ```javascript
